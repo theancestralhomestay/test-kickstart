@@ -1,0 +1,53 @@
+name: Build Mobile App
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'packages/mobile-app/**'
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: 'EAS Build Profile (uat or production)'
+        required: true
+        default: 'uat'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/mobile-app
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+
+      - name: Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build on EAS (Auto-Detect)
+        if: github.event_name == 'push'
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            eas build --platform android --profile production --non-interactive
+          else
+            eas build --platform android --profile uat --non-interactive
+          fi
+
+      - name: Build on EAS (Manual)
+        if: github.event_name == 'workflow_dispatch'
+        run: eas build --platform android --profile ${{ github.event.inputs.profile }} --non-interactive
