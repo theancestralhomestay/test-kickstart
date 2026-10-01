@@ -24,33 +24,20 @@ Welcome to your generated monorepo! This repository contains all three layers of
    ```
 6. Deploy each Apps Script as a Web App (Execute as: You, Access: Anyone).
 
-## 2. Firebase Hosting Setup
-1. Go to the [Firebase Console](https://console.firebase.google.com/) and create a project.
-2. In your terminal, initialize GitHub Actions integration automatically:
-   ```bash
-   cd packages/web-portal
-   npm install -g firebase-tools
-   firebase login
-   firebase init hosting:github
-   ```
-3. Follow the CLI prompts. The Firebase CLI will automatically create a highly secure Service Account, bind it to your GitHub repository via Secrets, and generate a new modern GitHub Actions workflow file in your repo!
+## 2. Firebase Hosting Setup ✅ (Completed)
+Firebase Hosting and GitHub Actions CI/CD have already been successfully configured for the `test-kickstart` project. The web portal will automatically deploy when changes are pushed to GitHub.
 
-## 3. Expo Mobile App & EAS Config
-
-1. Create a project on the [Expo Dashboard](https://expo.dev) or log in via CLI.
-2. Initialize and configure EAS:
-   ```bash
-   cd packages/mobile-app
-   npm install -g eas-cli
-   npm install
-   eas login
-   eas init --id YOUR_EAS_PROJECT_ID
-   ```
-   *(Be sure to update `app.config.js` with your generated `projectId` if `eas init` doesn't do it automatically).*
-3. Generate an Expo Access Token in your Expo account settings and add it as a GitHub Repository Secret named `EXPO_TOKEN`. This is required for the automated EAS Cloud Builds.
+## 3. Expo Mobile App & EAS Config ✅ (Completed)
+The Expo mobile application has been successfully linked to EAS Project `80a88dc0-728b-4efe-a5a5-0f7eee4e7588`. 
+The `EXPO_TOKEN` repository secret has been configured in GitHub, so automated Android and iOS builds will trigger automatically via GitHub Actions!
 
 ### Running locally
 ```bash
+cd packages/mobile-app
+
+# Install dependencies (only needed once)
+npm install
+
 # Start the dev server in Production mode
 npm start
 
