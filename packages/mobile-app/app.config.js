@@ -31,7 +31,7 @@ module.exports = () => {
       extra: {
         env: IS_UAT ? 'uat' : 'prod',
         eas: {
-          projectId: "YOUR_EAS_PROJECT_ID"
+          projectId: "80a88dc0-728b-4efe-a5a5-0f7eee4e7588"
         }
       }
     }
