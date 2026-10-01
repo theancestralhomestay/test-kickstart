@@ -13,7 +13,7 @@ Welcome to your generated monorepo! This repository contains all three layers of
 3. In this repo, update `packages/web-portal/index.html` with your new Script IDs.
 4. Set up `clasp`:
    ```bash
-   npm install -g @google/clasp
+   yarn global add @google/clasp
    clasp login
    ```
 5. Push code to Apps Script:
@@ -36,11 +36,11 @@ The `EXPO_TOKEN` repository secret has been configured in GitHub, so automated A
 cd packages/mobile-app
 
 # Install dependencies (only needed once)
-npm install
+yarn install
 
 # Start the dev server in Production mode
-npm start
+yarn start
 
 # Or start it in UAT mode (loads UAT environment URL)
-APP_ENV=uat npm start
+APP_ENV=uat yarn start
 ```
