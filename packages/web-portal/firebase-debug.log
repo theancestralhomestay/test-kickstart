@@ -1,0 +1,54 @@
+[debug] [2026-10-01T15:47:20.461Z] ----------------------------------------------------------------------
+[debug] [2026-10-01T15:47:20.465Z] Command:       /usr/bin/node /usr/local/bin/firebase init hosting:github
+[debug] [2026-10-01T15:47:20.465Z] CLI Version:   15.32.1
+[debug] [2026-10-01T15:47:20.466Z] Platform:      linux
+[debug] [2026-10-01T15:47:20.466Z] Node Version:  v22.22.1
+[debug] [2026-10-01T15:47:20.467Z] Detected Agent: unknown
+[debug] [2026-10-01T15:47:20.467Z] Time:          Thu Oct 01 2026 21:17:20 GMT+0530 (India Standard Time)
+[debug] [2026-10-01T15:47:20.467Z] ----------------------------------------------------------------------
+[debug] 
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /mnt/sdcard/Projects/ancestralhomestay/test-kickstart/packages/web-portal
+
+Before we get started, keep in mind:
+
+  * You are currently outside your home directory
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] 
+[debug] [2026-10-01T15:47:27.639Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-10-01T15:47:27.639Z] > authorizing via signed-in user (the.ancestral.home.stay@gmail.com)
+[debug] [2026-10-01T15:47:27.667Z] Checked if tokens are valid: false, expires at: 1790845896334
+[debug] [2026-10-01T15:47:27.667Z] Checked if tokens are valid: false, expires at: 1790845896334
+[debug] [2026-10-01T15:47:27.667Z] > refreshing access token with scopes: []
+[debug] [2026-10-01T15:47:27.671Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-10-01T15:47:27.671Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-10-01T15:47:28.196Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2026-10-01T15:47:28.197Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-10-01T15:47:28.205Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/test-kickstart [none]
+[debug] [2026-10-01T15:47:29.079Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/test-kickstart 200
+[debug] [2026-10-01T15:47:29.080Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/test-kickstart {"projectId":"test-kickstart","projectNumber":"597756669678","displayName":"test-kickstart","name":"projects/test-kickstart","resources":{"hostingSite":"test-kickstart"},"state":"ACTIVE","labels":{"firebase":"enabled"},"etag":"1_455b098b-c73b-46f7-8238-3da3962ff519"}
+[info] i  Using project test-kickstart (test-kickstart) . 
+[info] 
+=== Hosting:github Setup
+[info] 
+[info] i  Didn't detect a .git folder. Assuming /mnt/sdcard/Projects/ancestralhomestay/test-kickstart/packages/web-portal is the project root. 
+[info] i  Authorizing with GitHub to upload your service account to a GitHub repository's secrets store. 
+[info] 
+[info] Visit this URL on this device to log in:
+[info] https://github.com/login/oauth/authorize?client_id=89cf50f02ac6aaed3484&state=902795030&redirect_uri=http%3A%2F%2Flocalhost%3A9005&scope=read%3Auser%20repo%20public_repo
+[info] 
+[info] Waiting for authentication...
