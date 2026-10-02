@@ -31,6 +31,20 @@ Firebase Hosting and GitHub Actions CI/CD have already been successfully configu
 The Expo mobile application has been successfully linked to EAS Project `80a88dc0-728b-4efe-a5a5-0f7eee4e7588`. 
 The `EXPO_TOKEN` repository secret has been configured in GitHub, so automated Android and iOS builds will trigger automatically via GitHub Actions!
 
+### Android Keystore Initialization
+For EAS cloud builds to succeed **non-interactively** in GitHub Actions, Expo needs an Android Keystore. You must run your first build locally to allow EAS to generate and store one:
+```bash
+cd packages/mobile-app
+eas build --platform android --profile uat
+```
+*(Follow the prompts to let EAS generate a new keystore).*
+
+### CI/CD App Versioning & Workflows
+This repository includes a unified `build-mobile-app.yml` GitHub Actions workflow that handles semantic versioning and artifact releases automatically!
+- **Cloud vs Local Builds:** You can trigger builds manually via the GitHub Actions UI and select `cloud` (EAS) or `local` (GitHub Runner).
+- **Artifacts:** Builds are automatically packaged (APK & IPA) and published to GitHub Releases.
+- **Versioning:** The workflow reads the base version from `package.json` and dynamically sets `APP_VERSION` and `APP_BUILD_NUMBER` (tied to the GitHub run number) during the build process.
+
 ### Running locally
 ```bash
 cd packages/mobile-app
