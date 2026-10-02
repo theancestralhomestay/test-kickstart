@@ -10,8 +10,8 @@ export default function App() {
   const [canGoBack, setCanGoBack] = useState(false);
 
   const IS_UAT = Constants.expoConfig.extra?.env === 'uat';
-  // If hosted on GitHub Pages
-  const BASE_URL = `https://ancestralhomestay.github.io/test-kickstart/${IS_UAT ? 'uat/' : ''}`;
+  // Point to the Firebase Hosting domain
+  const BASE_URL = `https://test-kickstart.web.app/${IS_UAT ? '?env=uat' : ''}`;
 
   useEffect(() => {
     checkNetwork();
