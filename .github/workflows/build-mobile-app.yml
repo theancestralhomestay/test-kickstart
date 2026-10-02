@@ -51,8 +51,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18.x
-          cache: 'yarn'
-          cache-dependency-path: packages/mobile-app/yarn.lock
 
       - name: Setup Java (JDK 17)
         if: github.event.inputs.build_engine == 'local'
