@@ -34,10 +34,19 @@ The `EXPO_TOKEN` repository secret has been configured in GitHub, so automated A
 ### Android Keystore Initialization
 For EAS cloud builds to succeed **non-interactively** in GitHub Actions, Expo needs an Android Keystore. You must run your first build locally to allow EAS to generate and store one:
 ```bash
+# 1. Install EAS CLI globally (if you haven't already)
+yarn global add eas-cli
+
+# 2. Log in to your Expo account
+eas login
+
+# 3. Navigate to the mobile app package
 cd packages/mobile-app
+
+# 4. Trigger an interactive build to generate the keystore
 eas build --platform android --profile uat
 ```
-*(Follow the prompts to let EAS generate a new keystore).*
+*(Follow the interactive prompts and say "Yes" when it asks to generate a new Android Keystore. Once it uploads the keystore to EAS, you can cancel the build).*
 
 ### CI/CD App Versioning & Workflows
 This repository includes a unified `build-mobile-app.yml` GitHub Actions workflow that handles semantic versioning and artifact releases automatically!
