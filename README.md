@@ -52,6 +52,7 @@ eas build --platform android --profile uat
 This repository includes a unified `build-mobile-app.yml` GitHub Actions workflow that handles semantic versioning and artifact releases automatically!
 - **Cloud vs Local Builds:** You can trigger builds manually via the GitHub Actions UI and select `cloud` (EAS) or `local` (GitHub Runner).
 - **Artifacts:** Builds are automatically packaged (APK & IPA) and published to GitHub Releases.
+  - 📥 **[Download Latest APK/IPA Releases Here](https://github.com/theancestralhomestay/test-kickstart/releases)**
 - **Versioning:** The workflow reads the base version from `package.json` and dynamically sets `APP_VERSION` and `APP_BUILD_NUMBER` (tied to the GitHub run number) during the build process.
 
 ### Running locally
