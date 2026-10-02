@@ -25,6 +25,15 @@ on:
         options:
           - cloud
           - local
+      platform:
+        description: 'Build Platform'
+        required: true
+        default: 'android'
+        type: choice
+        options:
+          - android
+          - ios
+          - all
       version_bump:
         description: 'Version Bump'
         required: false
@@ -69,6 +78,7 @@ jobs:
           INPUT_ENV: ${{ github.event.inputs.environment }}
           INPUT_VERSION_BUMP: ${{ github.event.inputs.version_bump }}
           INPUT_ENGINE: ${{ github.event.inputs.build_engine || 'cloud' }}
+          INPUT_PLATFORM: ${{ github.event.inputs.platform || 'android' }}
           GITHUB_REF_NAME: ${{ github.ref_name }}
           GITHUB_REF_TYPE: ${{ github.ref_type }}
           GITHUB_RUN_NUMBER: ${{ github.run_number }}
@@ -87,6 +97,7 @@ jobs:
             const inputEnv = (process.env.INPUT_ENV || '').toLowerCase();
             const inputBump = (process.env.INPUT_VERSION_BUMP || 'auto').toLowerCase();
             const inputEngine = (process.env.INPUT_ENGINE || 'cloud').toLowerCase();
+            const inputPlatform = (process.env.INPUT_PLATFORM || 'android').toLowerCase();
             const runNumber = process.env.GITHUB_RUN_NUMBER || '1';
 
             let isProd = false;
@@ -139,7 +150,8 @@ jobs:
               appEnv = 'uat';
               profile = 'uat';
               envLabel = 'UAT';
-              appVersion = \`\${semver}-uat.\${runNumber}\`;
+              // iOS requires strict semver for APP_VERSION, cannot have suffixes
+              appVersion = semver;
               releaseTag = \`v\${semver}-uat.\${runNumber}\`;
               releaseName = \`UAT Pre-Release v\${semver}-uat.\${runNumber}\`;
               isPrerelease = true;
@@ -149,6 +161,7 @@ jobs:
 
             console.log('--- BUILD TELEMETRY ---');
             console.log(\`Engine             : \${inputEngine.toUpperCase()}\`);
+            console.log(\`Platform           : \${inputPlatform.toUpperCase()}\`);
             console.log(\`Target Environment : \${appEnv.toUpperCase()} (\${envLabel})\`);
             console.log(\`EAS Profile        : \${profile}\`);
             console.log(\`App Version String : \${appVersion}\`);
@@ -157,6 +170,7 @@ jobs:
 
             const outputs = [
               \`build_engine=\${inputEngine}\`,
+              \`platform=\${inputPlatform}\`,
               \`app_env=\${appEnv}\`,
               \`profile=\${profile}\`,
               \`env_label=\${envLabel}\`,
@@ -194,8 +208,7 @@ jobs:
           APP_VERSION: ${{ steps.resolve-env.outputs.app_version }}
           APP_BUILD_NUMBER: ${{ steps.resolve-env.outputs.build_number }}
         run: |
-          # Build both platforms simultaneously
-          eas build --platform all --profile ${{ steps.resolve-env.outputs.profile }} --non-interactive --wait --json > eas-build-output.json
+          eas build --platform ${{ steps.resolve-env.outputs.platform }} --profile ${{ steps.resolve-env.outputs.profile }} --non-interactive --wait --json > eas-build-output.json
           
           ANDROID_URL=$(jq -r '.[] | select(.platform=="ANDROID") | .artifacts.buildUrl // .artifacts.applicationArchiveUrl // empty' eas-build-output.json)
           IOS_URL=$(jq -r '.[] | select(.platform=="IOS") | .artifacts.buildUrl // .artifacts.applicationArchiveUrl // empty' eas-build-output.json)
