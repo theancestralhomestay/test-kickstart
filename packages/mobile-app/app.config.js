@@ -40,7 +40,8 @@ module.exports = () => {
         eas: {
           projectId: "80a88dc0-728b-4efe-a5a5-0f7eee4e7588"
         }
-      }
+      },
+      owner: "test-kickstart"
     }
   };
 };
