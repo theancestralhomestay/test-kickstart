@@ -72,7 +72,7 @@ function verifyEmailCode(userEmail, enteredCode) {
 
 function createSession(email) {
   setupDatabaseSheets();
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSpreadsheet();
   var sessionSheet = ss.getSheetByName('_Sessions');
 
   var token = 'sess_' + Utilities.getUuid() + '_' + new Date().getTime();
@@ -86,7 +86,7 @@ function createSession(email) {
 function validateSession(token) {
   if (!token) return { valid: false };
   setupDatabaseSheets();
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSpreadsheet();
   var sheet = ss.getSheetByName('_Sessions');
   var data = sheet.getDataRange().getValues();
 
@@ -107,7 +107,7 @@ function validateSession(token) {
 
 function revokeSession(token) {
   if (!token) return;
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSpreadsheet();
   var sheet = ss.getSheetByName('_Sessions');
   if(!sheet) return;
   var data = sheet.getDataRange().getValues();
@@ -122,7 +122,7 @@ function revokeSession(token) {
 
 // --- Database & Setup ---
 function setupDatabaseSheets() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSpreadsheet();
   var requiredSheets = ['Team', 'Settings', '_Sessions', 'Audit'];
   var sheetsCreated = false;
 
@@ -160,7 +160,7 @@ function seedDefaultLists(ss) {
 
 function isEmailInTeam(email) {
   setupDatabaseSheets();
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSpreadsheet();
   var teamSheet = ss.getSheetByName('Team');
   if(!teamSheet) return false;
   var data = teamSheet.getDataRange().getValues();
@@ -172,8 +172,31 @@ function isEmailInTeam(email) {
 }
 
 function logAudit(action, user, details) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSpreadsheet();
   var sheet = ss.getSheetByName('Audit');
   if (!sheet) return;
   sheet.appendRow([Utilities.getUuid(), new Date(), action, user, details]);
+}
+
+// --- Spreadsheet Helper ---
+function getSpreadsheet() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  if (ss) return ss;
+
+  var props = PropertiesService.getScriptProperties();
+  var savedId = props.getProperty('SPREADSHEET_ID');
+  if (savedId) {
+    try {
+      var opened = SpreadsheetApp.openById(savedId);
+      if (opened) return opened;
+    } catch (err) {}
+  }
+
+  try {
+    var newSs = SpreadsheetApp.create('test-kickstart Database');
+    props.setProperty('SPREADSHEET_ID', newSs.getId());
+    return newSs;
+  } catch (err) {
+    throw new Error("Could not create or find Google Sheet database. " + err);
+  }
 }
