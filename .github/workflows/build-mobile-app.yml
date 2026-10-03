@@ -28,9 +28,10 @@ on:
       platform:
         description: 'Build Platform'
         required: true
-        default: 'android'
+        default: 'all'
         type: choice
         options:
+          - all
           - android
           - ios
           - all
@@ -99,7 +100,7 @@ jobs:
             const inputEnv = (process.env.INPUT_ENV || '').toLowerCase();
             const inputBump = (process.env.INPUT_VERSION_BUMP || 'auto').toLowerCase();
             const inputEngine = (process.env.INPUT_ENGINE || 'cloud').toLowerCase();
-            const inputPlatform = (process.env.INPUT_PLATFORM || 'android').toLowerCase();
+            const inputPlatform = process.env.INPUT_PLATFORM ? process.env.INPUT_PLATFORM.toLowerCase() : (inputEngine === 'cloud' ? 'all' : 'android');
             const runNumber = process.env.GITHUB_RUN_NUMBER || '1';
 
             let isProd = false;
