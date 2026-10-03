@@ -61,7 +61,7 @@ function verifyEmailCode(userEmail, enteredCode) {
   if (!savedCode || !expiry) return { success: false, message: "Code expired or invalid." };
   if (new Date().getTime() > parseInt(expiry)) return { success: false, message: "Code has expired." };
 
-  if (savedCode === enteredCode.trim()) {
+  if (savedCode === String(enteredCode).trim()) {
     props.deleteProperty('OTP_' + email);
     props.deleteProperty('OTP_EXP_' + email);
     var token = createSession(email);
