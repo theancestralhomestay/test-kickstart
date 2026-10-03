@@ -24,6 +24,12 @@ Welcome to your generated monorepo! This repository contains all three layers of
    ```
 6. Deploy each Apps Script as a Web App (Execute as: You, Access: Anyone).
 
+### Database Auto-Creation
+Because your backend runs as a Standalone Apps Script, it doesn't have an attached Google Sheet by default. The code handles this automatically!
+- On the very first web request to your PROD or UAT backend, the script will automatically create a new Google Sheet named `test-kickstart Database` directly in your Google Drive root.
+- It saves the ID of this sheet securely to the Script's Properties and seeds it with all necessary tabs (`_Sessions`, `Team`, `Audit`, `Settings`).
+- **PROD vs UAT:** Because PROD and UAT are completely separate Apps Script projects, each one will generate its own isolated Google Sheet. They will both be named `test-kickstart Database` initially. *It is highly recommended that you open your Google Drive and rename them to `test-kickstart Database PROD` and `test-kickstart Database UAT` respectively so you don't confuse them.* (Renaming them will not break the integration, as the app connects via the hidden ID, not the name!).
+
 ## 2. Firebase Hosting Setup ✅ (Completed)
 Firebase Hosting and GitHub Actions CI/CD have already been successfully configured for the `test-kickstart` project. The web portal will automatically deploy when changes are pushed to GitHub.
 
