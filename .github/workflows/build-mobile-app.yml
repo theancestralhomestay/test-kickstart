@@ -222,8 +222,12 @@ jobs:
         if: steps.resolve-env.outputs.build_engine == 'cloud'
         run: |
           mkdir -p builds
-          wget -q -O "builds/${{ steps.resolve-env.outputs.apk_name }}" "${{ steps.eas-build.outputs.android_url }}"
-          wget -q -O "builds/${{ steps.resolve-env.outputs.ipa_name }}" "${{ steps.eas-build.outputs.ios_url }}"
+          if [ -n "${{ steps.eas-build.outputs.android_url }}" ]; then
+            wget -q -O "builds/${{ steps.resolve-env.outputs.apk_name }}" "${{ steps.eas-build.outputs.android_url }}"
+          fi
+          if [ -n "${{ steps.eas-build.outputs.ios_url }}" ]; then
+            wget -q -O "builds/${{ steps.resolve-env.outputs.ipa_name }}" "${{ steps.eas-build.outputs.ios_url }}"
+          fi
 
       # --- LOCAL BUILD (GitHub Runner) ---
       - name: Expo Prebuild (Generate Native Android Project)
