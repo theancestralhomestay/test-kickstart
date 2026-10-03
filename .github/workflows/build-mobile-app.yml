@@ -159,7 +159,7 @@ jobs:
               releaseName = \`UAT Pre-Release v\${semver}-uat.\${runNumber}\`;
               isPrerelease = true;
               apkName = \`app-uat-v\${semver}-b\${runNumber}-\${inputEngine}.apk\`;
-              ipaName = \`app-uat-v\${semver}-b\${runNumber}-\${inputEngine}.tar.gz\`;
+              ipaName = \`app-uat-v\${semver}-b\${runNumber}-\${inputEngine}.ipa\`;
             }
 
             console.log('--- BUILD TELEMETRY ---');
