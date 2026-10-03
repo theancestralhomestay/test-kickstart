@@ -32,8 +32,11 @@
   <!-- App Header -->
   <header class="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-40 hidden" id="appHeader">
     <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
-      <div class="font-bold text-lg text-primary truncate flex-1">
+      <div class="font-bold text-lg text-primary truncate flex-1 flex items-center">
         Test Kickstart
+        <? if (env === 'uat') { ?>
+          <span class="ml-2 px-1.5 py-0.5 bg-orange-100 text-orange-600 text-[10px] leading-tight rounded uppercase font-bold border border-orange-200 shadow-sm">UAT</span>
+        <? } ?>
       </div>
       <div class="flex items-center space-x-3">
         <!-- Theme Toggle -->

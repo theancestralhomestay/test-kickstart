@@ -7,7 +7,9 @@ const RECEIPT_FOLDER_NAME = "Test Kickstart Uploads";
 var SESSION_EXPIRY_DAYS = 90;
 
 function doGet(e) {
-  var htmlOutput = HtmlService.createTemplateFromFile('Index').evaluate();
+  var tpl = HtmlService.createTemplateFromFile('Index');
+  tpl.env = (e && e.parameter && e.parameter.env) ? e.parameter.env : 'prod';
+  var htmlOutput = tpl.evaluate();
   htmlOutput.setTitle('Test Kickstart')
             .addMetaTag('viewport', 'width=device-width, initial-scale=1, maximum-scale=1')
             .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);

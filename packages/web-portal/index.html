@@ -45,7 +45,8 @@
       }
 
       const frame = document.getElementById('app-frame');
-      const targetUrl = isUAT ? ENDPOINTS.uat : ENDPOINTS.prod;
+      let targetUrl = isUAT ? ENDPOINTS.uat : ENDPOINTS.prod;
+      if (isUAT) targetUrl += (targetUrl.includes('?') ? '&' : '?') + 'env=uat';
 
       frame.onload = function() {
         const loader = document.getElementById('loader');
