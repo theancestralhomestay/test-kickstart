@@ -147,7 +147,7 @@ jobs:
               releaseTag = \`v\${semver}\`;
               releaseName = \`Production Release v\${semver}\`;
               isPrerelease = false;
-              apkName = \`app-v\${semver}-b\${runNumber}-\${inputEngine}.apk\`;
+              apkName = \`app-v\${semver}-b\${runNumber}-\${inputEngine}.aab\`;
               ipaName = \`app-v\${semver}-b\${runNumber}-\${inputEngine}.ipa\`;
             } else {
               appEnv = 'uat';
@@ -159,7 +159,7 @@ jobs:
               releaseName = \`UAT Pre-Release v\${semver}-uat.\${runNumber}\`;
               isPrerelease = true;
               apkName = \`app-uat-v\${semver}-b\${runNumber}-\${inputEngine}.apk\`;
-              ipaName = \`app-uat-v\${semver}-b\${runNumber}-\${inputEngine}.ipa\`;
+              ipaName = \`app-uat-v\${semver}-b\${runNumber}-\${inputEngine}.tar.gz\`;
             }
 
             console.log('--- BUILD TELEMETRY ---');
