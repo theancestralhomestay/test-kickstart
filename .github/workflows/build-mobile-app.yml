@@ -260,7 +260,7 @@ jobs:
           name: ${{ steps.resolve-env.outputs.release_name }}
           prerelease: ${{ steps.resolve-env.outputs.is_prerelease == 'true' }}
           make_latest: ${{ steps.resolve-env.outputs.make_latest }}
-          files: builds/*
+          files: packages/mobile-app/builds/*
           body: |
             ### 📱 ${{ steps.resolve-env.outputs.release_name }}
             - **Environment:** `${{ steps.resolve-env.outputs.env_label }}`
