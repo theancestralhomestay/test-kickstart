@@ -21,6 +21,9 @@ module.exports = () => {
       },
       ios: {
         supportsTablet: true,
+        infoPlist: {
+          ITSAppUsesNonExemptEncryption: false
+        },
         bundleIdentifier: IS_UAT ? "com.kickstart.test.uat" : "com.kickstart.test",
         buildNumber: String(buildNumber)
       },

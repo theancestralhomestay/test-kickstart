@@ -61,7 +61,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22.x
+          node-version: '20'
 
       - name: Setup Java (JDK 17)
         if: github.event.inputs.build_engine == 'local'
@@ -191,7 +191,7 @@ jobs:
           "
 
       - name: Install dependencies
-        run: yarn install
+        run: npm ci
 
       # --- CLOUD BUILD (EAS) ---
       - name: Setup EAS CLI
@@ -199,7 +199,7 @@ jobs:
         uses: expo/expo-github-action@v8
         with:
           eas-version: latest
-          packager: yarn
+          packager: npm
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Build on EAS (Cloud)
