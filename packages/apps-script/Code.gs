@@ -27,12 +27,25 @@ function getCurrentUserInfo(sessionToken) {
 
   var email = session.email.toLowerCase().trim();
   var isOwner = (email === DEFAULT_OWNER_EMAIL.toLowerCase().trim());
-  var isTeam = isEmailInTeam(email);
+  var role = getTeamMemberRole(email);
+  var isTeam = (role !== null);
 
   if (isOwner || isTeam) {
-    return { isAuthorized: true, isOwner: isOwner, email: email };
+    var finalRole = isOwner ? 'admin' : (role || 'readonly');
+    return { isAuthorized: true, isOwner: isOwner, email: email, userRole: finalRole };
   }
   return { isAuthorized: false, isOwner: false, email: email };
+}
+
+function assertWriteAccess(sessionToken) {
+  var userInfo = getCurrentUserInfo(sessionToken);
+  if (!userInfo.isAuthorized) {
+    return { allowed: false, message: 'Unauthorized: You must be an authorized team member or admin.' };
+  }
+  if (userInfo.userRole === 'readonly') {
+    return { allowed: false, message: 'Access denied: Your account has read-only access. Contact the admin to upgrade your role.' };
+  }
+  return { allowed: true, userInfo: userInfo };
 }
 
 function sendVerificationCode(userEmail) {
@@ -154,21 +167,41 @@ function setupDatabaseSheets() {
 function seedDefaultLists(ss) {
   var teamSheet = ss.getSheetByName('Team');
   if (teamSheet.getLastRow() === 1) {
-    teamSheet.appendRow(['Admin User', DEFAULT_OWNER_EMAIL, 'Admin']);
+    teamSheet.appendRow(['Admin User', DEFAULT_OWNER_EMAIL, 'admin']);
   }
 }
 
 function isEmailInTeam(email) {
+  return getTeamMemberRole(email) !== null;
+}
+
+function getTeamMemberRole(email) {
   setupDatabaseSheets();
   var ss = getSpreadsheet();
   var teamSheet = ss.getSheetByName('Team');
-  if(!teamSheet) return false;
+  if(!teamSheet) return null;
   var data = teamSheet.getDataRange().getValues();
+  var numCols = teamSheet.getLastColumn();
+  
   for (var i = 1; i < data.length; i++) {
-    var emails = data[i][1] ? data[i][1].toString().toLowerCase() : "";
-    if (emails.indexOf(email) !== -1) return true;
+    var emailsRaw = data[i][1] ? data[i][1].toString().toLowerCase() : "";
+    var rolesRaw = numCols >= 3 ? (data[i][2] ? data[i][2].toString().toLowerCase().trim() : 'editor') : 'editor';
+    
+    if (emailsRaw.indexOf(email) !== -1) {
+      // Find exact role from comma separated list if multiple roles exist, otherwise fallback
+      var emailList = emailsRaw.split(',').map(function(e) { return String(e).trim(); });
+      var roleList = rolesRaw.split(',').map(function(r) { return String(r).trim(); });
+      
+      for (var j = 0; j < emailList.length; j++) {
+        if (emailList[j] === email) {
+          var role = roleList[j] || roleList[0] || 'editor';
+          return role === 'readonly' ? 'readonly' : (role === 'admin' ? 'admin' : 'editor');
+        }
+      }
+      return rolesRaw === 'readonly' ? 'readonly' : (rolesRaw === 'admin' ? 'admin' : 'editor');
+    }
   }
-  return false;
+  return null;
 }
 
 function logAudit(action, user, details) {
