@@ -20,7 +20,7 @@ on:
       build_engine:
         description: 'Build Engine (Cloud=EAS, Local=GitHub Runner for Android only)'
         required: true
-        default: 'cloud'
+        default: 'local'
         type: choice
         options:
           - cloud
@@ -80,7 +80,7 @@ jobs:
         env:
           INPUT_ENV: ${{ github.event.inputs.environment }}
           INPUT_VERSION_BUMP: ${{ github.event.inputs.version_bump }}
-          INPUT_ENGINE: ${{ github.event.inputs.build_engine || 'cloud' }}
+          INPUT_ENGINE: ${{ github.event.inputs.build_engine || 'local' }}
           INPUT_PLATFORM: ${{ github.event.inputs.platform || 'android' }}
           GITHUB_REF_NAME: ${{ github.ref_name }}
           GITHUB_REF_TYPE: ${{ github.ref_type }}
@@ -99,7 +99,7 @@ jobs:
             const isTag = process.env.GITHUB_REF_TYPE === 'tag' || (refName.startsWith('v') && /^[0-9]/.test(refName.slice(1)));
             const inputEnv = (process.env.INPUT_ENV || '').toLowerCase();
             const inputBump = (process.env.INPUT_VERSION_BUMP || 'auto').toLowerCase();
-            const inputEngine = (process.env.INPUT_ENGINE || 'cloud').toLowerCase();
+            const inputEngine = (process.env.INPUT_ENGINE || 'local').toLowerCase();
             const inputPlatform = process.env.INPUT_PLATFORM ? process.env.INPUT_PLATFORM.toLowerCase() : (inputEngine === 'cloud' ? 'all' : 'android');
             const runNumber = process.env.GITHUB_RUN_NUMBER || '1';
 
