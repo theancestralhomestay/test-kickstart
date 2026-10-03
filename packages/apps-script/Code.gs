@@ -66,21 +66,25 @@ function sendVerificationCode(userEmail) {
 }
 
 function verifyEmailCode(userEmail, enteredCode) {
-  var email = userEmail.toLowerCase().trim();
-  var props = PropertiesService.getScriptProperties();
-  var savedCode = props.getProperty('OTP_' + email);
-  var expiry = props.getProperty('OTP_EXP_' + email);
+  try {
+    var email = userEmail.toLowerCase().trim();
+    var props = PropertiesService.getScriptProperties();
+    var savedCode = props.getProperty('OTP_' + email);
+    var expiry = props.getProperty('OTP_EXP_' + email);
 
-  if (!savedCode || !expiry) return { success: false, message: "Code expired or invalid." };
-  if (new Date().getTime() > parseInt(expiry)) return { success: false, message: "Code has expired." };
+    if (!savedCode || !expiry) return { success: false, message: "Code expired or invalid." };
+    if (new Date().getTime() > parseInt(expiry, 10)) return { success: false, message: "Code has expired." };
 
-  if (savedCode === String(enteredCode).trim()) {
-    props.deleteProperty('OTP_' + email);
-    props.deleteProperty('OTP_EXP_' + email);
-    var token = createSession(email);
-    return { success: true, token: token };
+    if (savedCode === String(enteredCode).trim()) {
+      props.deleteProperty('OTP_' + email);
+      props.deleteProperty('OTP_EXP_' + email);
+      var token = createSession(email);
+      return { success: true, token: token };
+    }
+    return { success: false, message: "Incorrect code." };
+  } catch (err) {
+    return { success: false, message: "Crash in verifyEmailCode: " + err.toString() };
   }
-  return { success: false, message: "Incorrect code." };
 }
 
 function createSession(email) {
