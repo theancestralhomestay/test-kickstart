@@ -225,14 +225,19 @@ function getCurrentUserInfo(sessionToken) {
     }
   }
 
-  if (isOwner && !matchedMemberName) {
-    var team = ss ? getColumnValues(ss, 'Team', 1) : [];
-    if (team.length > 0) {
-      matchedMemberName = team[0];
-    }
+    if (isOwner && !matchedMemberName) {
+    matchedMemberName = 'Admin';
+  }
   }
 
-  var isAuthorized = isOwner || Boolean(matchedMemberName);
+    var isAuthorized = isOwner || Boolean(matchedMemberName);
+
+  // DEBUG LOGGING
+  console.log("getCurrentUserInfo called with sessionToken: ", sessionToken);
+  console.log("verifiedEmail: ", verifiedEmail);
+  console.log("isOwner: ", isOwner);
+  console.log("matchedMemberName: ", matchedMemberName);
+  console.log("isAuthorized: ", isAuthorized);
 
   // Resolve user role: admin bypasses all checks, otherwise look up from Team sheet
   var userRole = 'editor'; // default
