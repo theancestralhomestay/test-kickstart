@@ -228,16 +228,9 @@ function getCurrentUserInfo(sessionToken) {
     if (isOwner && !matchedMemberName) {
     matchedMemberName = 'Admin';
   }
-  }
 
     var isAuthorized = isOwner || Boolean(matchedMemberName);
 
-  // DEBUG LOGGING
-  console.log("getCurrentUserInfo called with sessionToken: ", sessionToken);
-  console.log("verifiedEmail: ", verifiedEmail);
-  console.log("isOwner: ", isOwner);
-  console.log("matchedMemberName: ", matchedMemberName);
-  console.log("isAuthorized: ", isAuthorized);
 
   // Resolve user role: admin bypasses all checks, otherwise look up from Team sheet
   var userRole = 'editor'; // default
