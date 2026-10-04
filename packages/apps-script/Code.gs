@@ -185,7 +185,7 @@ function getCurrentUserInfo(sessionToken) {
   try { activeUser = Session.getActiveUser().getEmail(); } catch (e) {}
   try { effectiveUser = Session.getEffectiveUser().getEmail(); } catch (e) {}
   
-  var verifiedEmail = activeUser || "";
+  var verifiedEmail = "";
   if (sessionToken) {
     var inputStr = String(sessionToken).trim();
     if (inputStr.indexOf('vfm_sess_') === 0) {
