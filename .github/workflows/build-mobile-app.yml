@@ -147,7 +147,7 @@ jobs:
               releaseTag = \`v\${semver}\`;
               releaseName = \`Production Release v\${semver}\`;
               isPrerelease = false;
-              apkName = \`app-v\${semver}-b\${runNumber}-\${inputEngine}.aab\`;
+              apkName = \`app-v\${semver}-b\${runNumber}-\${inputEngine}.apk\`;
               ipaName = \`app-v\${semver}-b\${runNumber}-\${inputEngine}.ipa\`;
             } else {
               appEnv = 'uat';
