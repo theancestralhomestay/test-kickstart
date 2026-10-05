@@ -14,7 +14,7 @@
         debugBanner.id = 'debug-banner';
         document.body.appendChild(debugBanner);
       }
-      debugBanner.className = 'fixed top-0 left-0 right-0 bg-red-600 text-white text-[12px] font-bold z-[999999] p-2 shadow-xl';
+      debugBanner.style.cssText = 'position:fixed; top:0; left:0; right:0; background:red; color:white; font-size:16px; font-weight:bold; z-index:99999999; padding:10px; text-align:center;';
       debugBanner.innerText = 'GLOBAL ERROR: ' + msg + ' @ ' + lineNo + ':' + columnNo;
       return false;
     };
@@ -32,7 +32,7 @@
         debugBanner.id = 'debug-banner';
         document.body.appendChild(debugBanner);
       }
-      debugBanner.className = 'fixed top-0 left-0 right-0 bg-red-600 text-white text-[12px] font-bold z-[999999] p-2 shadow-xl';
+      debugBanner.style.cssText = 'position:fixed; top:0; left:0; right:0; background:red; color:white; font-size:16px; font-weight:bold; z-index:99999999; padding:10px; text-align:center;';
       debugBanner.innerText = 'GLOBAL ERROR: ' + msg + ' @ ' + lineNo + ':' + columnNo;
       return false;
     };
@@ -1060,7 +1060,7 @@ html.dark, html.dark body { background-color: #0f172a !important; color: #f8fafc
         debugBanner.id = 'debug-banner';
         document.body.appendChild(debugBanner);
       }
-      debugBanner.className = 'fixed top-0 left-0 right-0 bg-red-600 text-white text-[12px] font-bold z-[999999] p-2 shadow-xl';
+      debugBanner.style.cssText = 'position:fixed; top:0; left:0; right:0; background:red; color:white; font-size:16px; font-weight:bold; z-index:99999999; padding:10px; text-align:center;';
       debugBanner.innerText = 'GLOBAL ERROR: ' + msg + ' @ ' + lineNo + ':' + columnNo;
       return false;
     };
@@ -2950,7 +2950,7 @@ html.dark, html.dark body { background-color: #0f172a !important; color: #f8fafc
       return (new Date(now.getTime() - tzOffset)).toISOString().slice(0, 16);
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function() { alert("DEBUG: App Initializing!");
       if (document.getElementById('expDate')) document.getElementById('expDate').value = getNowDateTimeLocal();
       if (document.getElementById('incDate')) document.getElementById('incDate').value = getNowDateTimeLocal();
       if (document.getElementById('trfDate')) document.getElementById('trfDate').value = getNowDateTimeLocal();
@@ -3058,7 +3058,7 @@ html.dark, html.dark body { background-color: #0f172a !important; color: #f8fafc
         if (!debugBanner) {
           debugBanner = document.createElement('div');
           debugBanner.id = 'debug-banner';
-          debugBanner.className = 'fixed top-0 left-0 right-0 bg-blue-500 text-white text-[14px] font-bold z-[999999] p-2 shadow-xl';
+          debugBanner.style.cssText = 'position:fixed; top:0; left:0; right:0; background:blue; color:white; font-size:16px; font-weight:bold; z-index:99999999; padding:10px; text-align:center;';
           document.body.appendChild(debugBanner);
         }
         debugBanner.innerText = 'REFRESHDATA CALLED... waiting for google.script.run';
@@ -3161,7 +3161,7 @@ html.dark, html.dark body { background-color: #0f172a !important; color: #f8fafc
         if (!debugBanner) {
           debugBanner = document.createElement('div');
           debugBanner.id = 'debug-banner';
-          debugBanner.className = 'fixed top-0 left-0 right-0 bg-yellow-400 text-black text-[14px] font-bold z-[999999] p-2 shadow-xl';
+          debugBanner.style.cssText = 'position:fixed; top:0; left:0; right:0; background:yellow; color:black; font-size:16px; font-weight:bold; z-index:99999999; padding:10px; text-align:center;';
           document.body.appendChild(debugBanner);
         }
         let dataStr = 'NULL';
@@ -3255,7 +3255,7 @@ html.dark, html.dark body { background-color: #0f172a !important; color: #f8fafc
         if (!debugBanner) {
           debugBanner = document.createElement('div');
           debugBanner.id = 'debug-banner';
-          debugBanner.className = 'fixed top-0 left-0 right-0 bg-red-600 text-white text-[14px] font-bold z-[999999] p-2 shadow-xl';
+          debugBanner.style.cssText = 'position:fixed; top:0; left:0; right:0; background:red; color:white; font-size:16px; font-weight:bold; z-index:99999999; padding:10px; text-align:center;';
           document.body.appendChild(debugBanner);
         }
         debugBanner.innerText = 'ONDATAERROR TRIGGERED: ' + (err ? err.toString() : 'Unknown');
