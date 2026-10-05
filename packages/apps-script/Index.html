@@ -2950,7 +2950,7 @@ html.dark, html.dark body { background-color: #0f172a !important; color: #f8fafc
       return (new Date(now.getTime() - tzOffset)).toISOString().slice(0, 16);
     }
 
-    document.addEventListener("DOMContentLoaded", function() { alert("DEBUG: App Initializing!");
+    document.addEventListener("DOMContentLoaded", function() {
       if (document.getElementById('expDate')) document.getElementById('expDate').value = getNowDateTimeLocal();
       if (document.getElementById('incDate')) document.getElementById('incDate').value = getNowDateTimeLocal();
       if (document.getElementById('trfDate')) document.getElementById('trfDate').value = getNowDateTimeLocal();
@@ -3714,7 +3714,8 @@ html.dark, html.dark body { background-color: #0f172a !important; color: #f8fafc
     }
 
     function handleIncomeMethodChange() {
-      let method = document.getElementById('incPaymentMethod').value;
+      let methodEl = document.getElementById('incPaymentMethod');
+      let method = methodEl ? methodEl.value : '';
       let container = document.getElementById('incCollectedByContainer');
       if (container) {
         if (method === 'Cash Received by Member') {
@@ -3940,7 +3941,8 @@ html.dark, html.dark body { background-color: #0f172a !important; color: #f8fafc
     }
 
     function handleTypeChange() {
-      let type = document.getElementById('trfType').value;
+      let typeEl = document.getElementById('trfType');
+      let type = typeEl ? typeEl.value : '';
       let sourceContainer = document.getElementById('transferSourceContainer');
       let recipientContainer = document.getElementById('recipientContainer');
       let giverContainer = document.getElementById('memberGiverContainer');
@@ -5271,7 +5273,8 @@ html.dark, html.dark body { background-color: #0f172a !important; color: #f8fafc
         showAlert('Cannot save transfer: You have read-only access.', 'error');
         return;
       }
-      let type = document.getElementById('trfType').value;
+      let typeEl = document.getElementById('trfType');
+      let type = typeEl ? typeEl.value : '';
       let currentBookId = getValidFormBookId();
       if (isItemBookLocked(currentBookId)) {
         showAlert('Cannot save transfer: The selected account book is locked and accepts no changes.', 'error');
