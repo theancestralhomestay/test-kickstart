@@ -5062,7 +5062,86 @@ html.dark, html.dark body { background-color: #0f172a !important; color: #f8fafc
       });
     }
 
-    )
+    function handleExpenseSubmit(e) {
+      e.preventDefault();
+      if (isReadOnly()) {
+        showAlert('Cannot save expense: You have read-only access.', 'error');
+        return;
+      }
+      let currentBookId = getValidFormBookId();
+      if (isItemBookLocked(currentBookId)) {
+        showAlert('Cannot save expense: The selected account book is locked and accepts no changes.', 'error');
+        return;
+      }
+
+      let formObj = {
+        bookId: currentBookId,
+        loggedBy: document.getElementById('expLoggedBy').value,
+        date: document.getElementById('expDate').value,
+        villa: document.getElementById('expVilla').value,
+        category: document.getElementById('expCategory').value,
+        paymentSource: document.getElementById('expPaymentSource').value,
+        amount: document.getElementById('expAmount').value,
+        description: document.getElementById('expDescription').value
+      };
+
+      let btn = document.getElementById('submitExpBtn');
+      btn.disabled = true;
+      let fileCount = selectedReceiptFiles.length;
+      let loadingMsg = fileCount > 0 
+        ? '<span>Saving Record & ' + fileCount + ' Receipt' + (fileCount > 1 ? 's' : '') + '...</span>'
+        : '<span>Saving Expense Record...</span>';
+      btn.innerHTML = '<svg class="w-4 h-4 animate-spin inline mr-1.5 -mt-0.5 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>' + loadingMsg;
+
+      function resetExpenseForm() {
+        btn.disabled = false;
+        btn.innerHTML = '<span>Save Expense Record</span>';
+        document.getElementById('expenseForm').reset();
+        clearAllSelectedReceiptFiles();
+        document.getElementById('expDate').value = getNowDateTimeLocal();
+        let defProp = (globalState.villas && globalState.villas.length) ? globalState.villas[0] : 'The Ancestral Home';
+        let expVillaEl = document.getElementById('expVilla');
+        if (expVillaEl) expVillaEl.value = defProp;
+      }
+
+      let readFilesPromise = function() {
+        if (selectedReceiptFiles.length === 0) {
+          return Promise.resolve([]);
+        }
+        let promises = selectedReceiptFiles.map(function(file) {
+          return new Promise(function(resolve) {
+            let reader = new FileReader();
+            reader.onload = function(evt) {
+              let base64 = evt.target.result.split(',')[1];
+              resolve({ bytes: base64, mimeType: file.type || 'application/octet-stream', name: file.name });
+            };
+            reader.onerror = function() {
+              resolve(null);
+            };
+            reader.readAsDataURL(file);
+          });
+        });
+        return Promise.all(promises);
+      };
+
+      readFilesPromise().then(function(encodedFiles) {
+        let validFiles = (encodedFiles || []).filter(Boolean);
+        if (validFiles.length > 0) {
+          formObj.receiptFiles = validFiles;
+          formObj.receiptFile = validFiles[0]; // backwards compatibility
+        }
+
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(function(res) {
+              resetExpenseForm();
+              if (res.status === 'success') {
+                showAlert(res.message, 'success');
+                refreshData();
+              } else {
+                showAlert(res.message, 'error');
+              }
+            })
             .withFailureHandler(function(err) {
               btn.disabled = false;
               btn.innerHTML = '<span>Save Expense Record</span>';
