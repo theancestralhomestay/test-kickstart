@@ -8,6 +8,7 @@
   <script>
 
     window.onerror = function(msg, url, lineNo, columnNo, error) {
+      if (localStorage.getItem('debug-mode') !== 'true') return false;
       let debugBanner = document.getElementById('debug-banner');
       if (!debugBanner) {
         debugBanner = document.createElement('div');
@@ -26,6 +27,7 @@
   <script>
 
     window.onerror = function(msg, url, lineNo, columnNo, error) {
+      if (localStorage.getItem('debug-mode') !== 'true') return false;
       let debugBanner = document.getElementById('debug-banner');
       if (!debugBanner) {
         debugBanner = document.createElement('div');
@@ -586,6 +588,16 @@ html.dark, html.dark body { background-color: #0f172a !important; color: #f8fafc
           </button>
         </div>
 
+        <div id="debugModeContainer" class="hidden p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between dark:border-slate-700 dark:bg-slate-800 mt-2">
+          <div>
+            <strong class="text-slate-800 dark:text-slate-200">Debug Mode</strong>
+            <p class="text-[10px] text-slate-500 dark:text-slate-400">Show diagnostic banners (Admin)</p>
+          </div>
+          <button type="button" onclick="toggleDebugMode()" id="debugToggleBtn" class="w-12 h-6 rounded-full bg-slate-300 relative transition-colors cursor-pointer">
+            <span class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 ease-in-out"></span>
+          </button>
+        </div>
+
         <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
           <button type="button" onclick="googleSignOut()" class="px-3.5 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-semibold rounded-xl text-xs cursor-pointer transition flex items-center gap-1.5 shadow-xs dark:shadow-slate-900/50 dark:bg-rose-900/30">
             <span>🚪</span>
@@ -1054,6 +1066,7 @@ html.dark, html.dark body { background-color: #0f172a !important; color: #f8fafc
   <script>
 
     window.onerror = function(msg, url, lineNo, columnNo, error) {
+      if (localStorage.getItem('debug-mode') !== 'true') return false;
       let debugBanner = document.getElementById('debug-banner');
       if (!debugBanner) {
         debugBanner = document.createElement('div');
@@ -2628,6 +2641,12 @@ html.dark, html.dark body { background-color: #0f172a !important; color: #f8fafc
       var mobTabLists = document.getElementById('mob-tab-lists');
       var bookActionBtns = document.getElementById('bookActionBtns');
 
+      var debugContainer = document.getElementById('debugModeContainer');
+      if (debugContainer) {
+        if (isAdmin) debugContainer.classList.remove('hidden');
+        else debugContainer.classList.add('hidden');
+      }
+      
       if (tabLists) {
         if (isAdmin) {
           tabLists.classList.remove('hidden');
@@ -3054,17 +3073,17 @@ html.dark, html.dark body { background-color: #0f172a !important; color: #f8fafc
     function refreshData(forcedToken) {
 
       try {
-        let debugBanner = document.getElementById('debug-banner');
-        if (!debugBanner) {
-          debugBanner = document.createElement('div');
-          debugBanner.id = 'debug-banner';
-          debugBanner.style.cssText = 'position:fixed; top:0; left:0; right:0; background:blue; color:white; font-size:16px; font-weight:bold; z-index:99999999; padding:10px; text-align:center;';
-          document.body.appendChild(debugBanner);
+        if (localStorage.getItem('debug-mode') === 'true') {
+          let debugBanner = document.getElementById('debug-banner');
+          if (!debugBanner) {
+            debugBanner = document.createElement('div');
+            debugBanner.id = 'debug-banner';
+            debugBanner.style.cssText = 'position:fixed; top:0; left:0; right:0; background:blue; color:white; font-size:16px; font-weight:bold; z-index:99999999; padding:10px; text-align:center;';
+            document.body.appendChild(debugBanner);
+          }
+          debugBanner.innerText = 'REFRESHDATA CALLED... waiting for google.script.run';
         }
-        debugBanner.innerText = 'REFRESHDATA CALLED... waiting for google.script.run';
-      } catch(e) {
-        alert('DEBUG ERROR: ' + e.message);
-      }
+      } catch(e) { }
 
       isDataRefreshing = true;
       updateTabLoadingStates();
@@ -3157,21 +3176,24 @@ html.dark, html.dark body { background-color: #0f172a !important; color: #f8fafc
 
       // Debug info
       try {
-        let debugBanner = document.getElementById('debug-banner');
-        if (!debugBanner) {
-          debugBanner = document.createElement('div');
-          debugBanner.id = 'debug-banner';
-          debugBanner.style.cssText = 'position:fixed; top:0; left:0; right:0; background:yellow; color:black; font-size:16px; font-weight:bold; z-index:99999999; padding:10px; text-align:center;';
-          document.body.appendChild(debugBanner);
+        if (localStorage.getItem('debug-mode') === 'true') {
+          let debugBanner = document.getElementById('debug-banner');
+          if (!debugBanner) {
+            debugBanner = document.createElement('div');
+            debugBanner.id = 'debug-banner';
+            debugBanner.style.cssText = 'position:fixed; top:0; left:0; right:0; background:yellow; color:black; font-size:12px; font-weight:bold; z-index:99999999; padding:10px; text-align:center;';
+            document.body.appendChild(debugBanner);
+          }
+          let dataStr = 'NULL';
+          if (data) {
+            dataStr = 'Auth:' + data.isAuthorized + ' Status:' + data.status;
+          }
+          debugBanner.innerText = 'DEBUG RUNNING! ' + dataStr + ' | HasModal: ' + !!document.getElementById('accessDeniedModal');
+        } else {
+          let b = document.getElementById('debug-banner');
+          if (b) b.remove();
         }
-        let dataStr = 'NULL';
-        if (data) {
-          dataStr = 'Auth:' + data.isAuthorized + ' Status:' + data.status + ' Msg:' + data.message;
-        }
-        debugBanner.innerText = 'DEBUG RUNNING! ' + dataStr + ' | HasModal: ' + !!document.getElementById('accessDeniedModal');
-      } catch(e) {
-        alert('DEBUG ERROR: ' + e.message);
-      }
+      } catch(e) { }
 
       isDataRefreshing = false;
       var refreshBtn = document.getElementById('refreshBtn');
@@ -3251,17 +3273,17 @@ html.dark, html.dark body { background-color: #0f172a !important; color: #f8fafc
     function onDataError(err) {
 
       try {
-        let debugBanner = document.getElementById('debug-banner');
-        if (!debugBanner) {
-          debugBanner = document.createElement('div');
-          debugBanner.id = 'debug-banner';
-          debugBanner.style.cssText = 'position:fixed; top:0; left:0; right:0; background:red; color:white; font-size:16px; font-weight:bold; z-index:99999999; padding:10px; text-align:center;';
-          document.body.appendChild(debugBanner);
+        if (localStorage.getItem('debug-mode') === 'true') {
+          let debugBanner = document.getElementById('debug-banner');
+          if (!debugBanner) {
+            debugBanner = document.createElement('div');
+            debugBanner.id = 'debug-banner';
+            debugBanner.style.cssText = 'position:fixed; top:0; left:0; right:0; background:red; color:white; font-size:16px; font-weight:bold; z-index:99999999; padding:10px; text-align:center;';
+            document.body.appendChild(debugBanner);
+          }
+          debugBanner.innerText = 'ONDATAERROR TRIGGERED: ' + (err ? err.toString() : 'Unknown');
         }
-        debugBanner.innerText = 'ONDATAERROR TRIGGERED: ' + (err ? err.toString() : 'Unknown');
-      } catch(e) {
-        alert('DEBUG ERROR: ' + e.message);
-      }
+      } catch(e) { }
 
       isDataRefreshing = false;
       var refreshBtn = document.getElementById('refreshBtn');
@@ -5892,6 +5914,40 @@ html.dark, html.dark body { background-color: #0f172a !important; color: #f8fafc
       }
     }
 
+    
+    function initDebugMode() {
+      const isDebug = localStorage.getItem('debug-mode') === 'true';
+      updateDebugToggleUI(isDebug);
+    }
+    
+    function toggleDebugMode() {
+      const isDebug = localStorage.getItem('debug-mode') === 'true';
+      localStorage.setItem('debug-mode', isDebug ? 'false' : 'true');
+      updateDebugToggleUI(!isDebug);
+      if (isDebug) {
+        let b = document.getElementById('debug-banner');
+        if (b) b.remove();
+      } else {
+        refreshData();
+      }
+    }
+    
+    function updateDebugToggleUI(isDebug) {
+      const btn = document.getElementById('debugToggleBtn');
+      const knob = btn ? btn.querySelector('span') : null;
+      if (btn && knob) {
+        if (isDebug) {
+          btn.classList.remove('bg-slate-300');
+          btn.classList.add('bg-blue-600');
+          knob.classList.add('translate-x-6');
+        } else {
+          btn.classList.add('bg-slate-300');
+          btn.classList.remove('bg-blue-600');
+          knob.classList.remove('translate-x-6');
+        }
+      }
+    }
+
     function toggleTheme() {
       const isDark = document.documentElement.classList.toggle('dark');
       localStorage.setItem('theme-preference', isDark ? 'dark' : 'light');
@@ -5916,6 +5972,7 @@ html.dark, html.dark body { background-color: #0f172a !important; color: #f8fafc
 
     // Initialize theme on load
     document.addEventListener('DOMContentLoaded', initTheme);
+    document.addEventListener('DOMContentLoaded', initDebugMode);
 
   </script>
 
