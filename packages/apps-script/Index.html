@@ -356,35 +356,7 @@ html.dark, html.dark body { background-color: #0f172a !important; color: #f8fafc
   <!-- DESKTOP NAVIGATION TABS -->
   <div class="hidden md:block max-w-4xl mx-auto px-4 mt-2 border-b border-slate-200 bg-white sticky top-[53px] z-30 overflow-x-auto no-scrollbar dark:border-slate-700 dark:bg-slate-900">
     <div class="flex text-xs font-semibold text-slate-500 min-w-max dark:text-slate-400">
-      <button type="button" onclick="switchTab('expense')" id="tab-expense" class="py-3 px-3.5 flex items-center justify-center gap-1.5 tab-active transition cursor-pointer">
-        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-        <span>Log Expense</span>
-      </button>
-      <button type="button" onclick="switchTab('income')" id="tab-income" class="py-3 px-3.5 flex items-center justify-center gap-1.5 transition cursor-pointer">
-        <svg class="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V11m0 0V7m0 4h4m-4 0H7"></path></svg>
-        <span>Log Rent Income</span>
-      </button>
-      <button type="button" onclick="switchTab('transfer')" id="tab-transfer" class="py-3 px-3.5 flex items-center justify-center gap-1.5 transition cursor-pointer">
-        <svg class="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
-        <span>Cash / Reimburse</span>
-      </button>
-      <button type="button" onclick="switchTab('summary')" id="tab-summary" class="py-3 px-3.5 flex items-center justify-center gap-1.5 transition cursor-pointer">
-        <svg class="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-        <span>Debts & Balances</span>
-      </button>
-      <button type="button" onclick="switchTab('history')" id="tab-history" class="py-3 px-3.5 flex items-center justify-center gap-1.5 transition cursor-pointer">
-        <svg class="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-        <span>History</span>
-      </button>
-      <button type="button" onclick="switchTab('reports')" id="tab-reports" class="py-3 px-3.5 flex items-center justify-center gap-1.5 transition cursor-pointer">
-        <svg class="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-        <span>Reports</span>
-      </button>
-      <button type="button" onclick="switchTab('lists')" id="tab-lists" class="hidden py-3 px-3.5 flex items-center justify-center gap-1.5 transition cursor-pointer">
-        <svg class="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-        <span>Settings</span>
-      </button>
-    </div>
+      </div>
   </div>
 
   <!-- MOBILE FIXED BOTTOM NAVIGATION BAR -->
@@ -2971,6 +2943,11 @@ html.dark, html.dark body { background-color: #0f172a !important; color: #f8fafc
       if (banner) banner.classList.add('hidden');
     }
 
+    
+    function renderSettings() {
+      // Stub for settings
+    }
+
     function switchTab(tab, direction) {
       if (tab === 'lists' && !isAdmin) {
         openAdminModal();
@@ -3138,6 +3115,18 @@ html.dark, html.dark body { background-color: #0f172a !important; color: #f8fafc
         return;
       }
       globalState = data;
+      // Debug info
+      try {
+        let debugBanner = document.getElementById('debug-banner');
+        if (!debugBanner) {
+          debugBanner = document.createElement('div');
+          debugBanner.id = 'debug-banner';
+          debugBanner.className = 'fixed top-0 left-0 right-0 bg-yellow-400 text-black text-[10px] font-mono z-[9999] p-1';
+          document.body.appendChild(debugBanner);
+        }
+        debugBanner.innerText = 'Auth: ' + data.isAuthorized + ' | Status: ' + data.status + ' | HasModal: ' + !!document.getElementById('accessDeniedModal');
+      } catch(e) {}
+
 
       if (data.activeEmail) {
         activeUserEmail = data.activeEmail;
